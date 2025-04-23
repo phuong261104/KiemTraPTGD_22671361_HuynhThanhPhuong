@@ -7,6 +7,8 @@ function App() {
   const [editModal, setEditModal] = useState(false);
   const [studentToEdit, setStudentToEdit] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedClass, setSelectedClass] = useState("");
+
 
 
 
@@ -65,9 +67,12 @@ function App() {
   };
 
 
-  const filteredStudents = students.filter((sv) =>
+  const filteredStudents = students
+  .filter((sv) =>
     sv.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )
+  .filter((sv) => (selectedClass ? sv.class === selectedClass : true));
+
 
 
 
@@ -87,15 +92,31 @@ function App() {
         </div>
 
         {/* Tìm kiếm */}
-        <div className="mb-4">
-          <input
-            type="text"
-            placeholder="🔍 Tìm sinh viên theo tên..."
-            className="px-4 py-2 border rounded w-full"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
+        <div className="mb-4 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+  {/* Ô tìm kiếm */}
+  <input
+    type="text"
+    placeholder="🔍 Tìm sinh viên theo tên..."
+    className="px-4 py-2 border rounded w-full sm:w-2/3"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+
+  {/* Dropdown lớp */}
+  <select
+    className="px-4 py-2 border rounded w-full sm:w-1/3"
+    value={selectedClass}
+    onChange={(e) => setSelectedClass(e.target.value)}
+  >
+    <option value="">Tất cả lớp</option>
+    {[...new Set(students.map((s) => s.class))].map((cls) => (
+      <option key={cls} value={cls}>
+        {cls}
+      </option>
+    ))}
+  </select>
+</div>
+
 
         {/* Bảng danh sách */}
         <table className="w-full text-left border">
