@@ -9,7 +9,24 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
 
-
+  useEffect(() => {
+    const saved = localStorage.getItem("students");
+    if (saved) {
+      setStudents(JSON.parse(saved));
+    }
+  
+    // Đồng thời vẫn fetch từ server để cập nhật mới nhất
+    fetch("http://localhost:3001/students")
+      .then((res) => res.json())
+      .then((data) => {
+        setStudents(data);
+        localStorage.setItem("students", JSON.stringify(data));
+      });
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("students", JSON.stringify(students));
+  }, [students]);
+    
 
 
   useEffect(() => {
