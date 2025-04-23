@@ -1,12 +1,6 @@
 {
   "students": [
     {
-      "id": "1",
-      "name": "Nguyễn Văn A",
-      "class": "10A1",
-      "age": 16
-    },
-    {
       "id": "2",
       "name": "Trần Thị B",
       "class": "10A2",

@@ -26,6 +26,21 @@ function App() {
       });
   };
 
+  const handleDelete = (id, name) => {
+    const confirmDelete = window.confirm(`Bạn có chắc chắn muốn xoá sinh viên "${name}" (ID: ${id})?`);
+    if (!confirmDelete) return;
+
+    fetch(`http://localhost:3001/students/${id}`, {
+      method: "DELETE",
+    })
+      .then(() => {
+        setStudents((prev) => prev.filter((sv) => sv.id !== id));
+      })
+      .catch((err) => console.error("Lỗi xoá sinh viên:", err));
+  };
+
+
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6">
@@ -55,12 +70,17 @@ function App() {
                 <td className="p-2 border">{sv.class}</td>
                 <td className="p-2 border">{sv.age}</td>
                 <td className="p-2 border">
-                  <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                  <button
+                    onClick={() => handleDelete(sv.id, sv.name)}
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                  >
                     Xoá
                   </button>
+
                 </td>
               </tr>
             ))}
+
           </tbody>
         </table>
       </div>
